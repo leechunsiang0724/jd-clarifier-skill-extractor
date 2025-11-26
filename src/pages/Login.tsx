@@ -182,6 +182,11 @@ export function Login() {
             {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
           </button>
         </div>
+
+        <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col items-center justify-center gap-2">
+          <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">Powered by</span>
+          <img src="/kadoshAI.png" alt="kadoshAI" className="h-8 opacity-80 hover:opacity-100 transition-opacity" />
+        </div>
       </div>
     </div>
   )

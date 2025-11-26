@@ -3,6 +3,7 @@ import { AppLayout } from './components/layout/AppLayout'
 import { JobEditor } from './pages/JobEditor'
 import { MyJobs } from './pages/MyJobs'
 import { Login } from './pages/Login'
+import { ManagerDashboard } from './pages/ManagerDashboard'
 import { useAuth } from './hooks/useAuth'
 
 function App() {
@@ -31,6 +32,10 @@ function App() {
         <Route
           path="/jobs/:jobId"
           element={user ? <AppLayout><JobEditor /></AppLayout> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/manager"
+          element={user ? <AppLayout><ManagerDashboard /></AppLayout> : <Navigate to="/login" />}
         />
       </Routes>
     </BrowserRouter>

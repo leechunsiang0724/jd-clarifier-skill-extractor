@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getMyJobs, deleteJob, type Job } from '../lib/jobService'
-import { FileText, Trash2, Share2, Calendar, Tag } from 'lucide-react'
+import { getMyJobs, deleteJob, submitJobForApproval, type Job } from '../lib/jobService'
+import { FileText, Trash2, Share2, Calendar, Tag, Send } from 'lucide-react'
 
 export function MyJobs() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -32,6 +32,24 @@ export function MyJobs() {
     } catch (error) {
       console.error('Failed to delete job:', error)
       alert('Failed to delete job')
+    }
+  }
+
+  const handleSubmit = async (job: Job) => {
+    if (!job.refined_text) {
+      alert('Please refine the job description before submitting')
+      return
+    }
+
+    if (!confirm('Are you sure you want to submit this job description for manager approval?')) return
+
+    try {
+      const updatedJob = await submitJobForApproval(job.id)
+      setJobs(jobs.map((j) => (j.id === job.id ? updatedJob : j)))
+      alert('Job submitted for approval!')
+    } catch (error) {
+      console.error('Failed to submit job:', error)
+      alert('Failed to submit job')
     }
   }
 
@@ -144,6 +162,15 @@ export function MyJobs() {
                   >
                     <Share2 className="h-5 w-5" />
                   </button>
+                  {(job.status === 'draft' || job.status === 'rejected') && job.refined_text && (
+                    <button
+                      onClick={() => handleSubmit(job)}
+                      className="p-2 text-slate-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all"
+                      title="Submit for Approval"
+                    >
+                      <Send className="h-5 w-5" />
+                    </button>
+                  )}
                   <button
                     onClick={() => handleDelete(job.id)}
                     className="p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"

@@ -13,6 +13,9 @@ export interface Job {
   share_token?: string
   share_expires_at?: string
   status: 'draft' | 'pending_approval' | 'approved' | 'rejected'
+  manager_feedback?: string
+  reviewed_by?: string
+  reviewed_at?: string
   created_at: string
   updated_at: string
 }
@@ -50,7 +53,7 @@ export interface UpdateJobData {
 export async function createJob(data: CreateJobData): Promise<Job> {
   // Get current user
   const { data: { user }, error: userError } = await supabase.auth.getUser()
-  
+
   if (userError || !user) {
     throw new Error('User must be authenticated to create a job')
   }
@@ -186,12 +189,107 @@ export async function addComment(jobId: string, content: string, userEmail?: str
   return data
 }
 
-// Approve a job
-export async function approveJob(jobId: string): Promise<Job> {
-  return updateJob(jobId, { status: 'approved' })
+// Submit job for manager approval
+export async function submitJobForApproval(jobId: string): Promise<Job> {
+  const expiresAt = new Date()
+  expiresAt.setDate(expiresAt.getDate() + 7) // 7 days from now
+
+  const { data, error } = await supabase
+    .from('jobs')
+    .update({
+      status: 'pending_approval',
+      share_expires_at: expiresAt.toISOString(),
+    })
+    .eq('id', jobId)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
 }
 
-// Reject a job
+// Get all pending submissions (manager only)
+export async function getPendingSubmissions(): Promise<Job[]> {
+  const { data, error } = await supabase
+    .from('jobs')
+    .select('*')
+    .eq('status', 'pending_approval')
+    .order('updated_at', { ascending: false })
+
+  if (error) throw error
+  return data || []
+}
+
+// Get all submissions with filters (manager only)
+export async function getAllSubmissions(statusFilter?: 'approved' | 'rejected' | 'pending_approval'): Promise<Job[]> {
+  let query = supabase
+    .from('jobs')
+    .select('*')
+    .in('status', ['pending_approval', 'approved', 'rejected'])
+
+  if (statusFilter) {
+    query = query.eq('status', statusFilter)
+  }
+
+  const { data, error } = await query.order('updated_at', { ascending: false })
+
+  if (error) throw error
+  return data || []
+}
+
+// Approve a job (manager only)
+export async function approveJobSubmission(jobId: string): Promise<Job> {
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+  if (userError || !user) {
+    throw new Error('User must be authenticated')
+  }
+
+  const { data, error } = await supabase
+    .from('jobs')
+    .update({
+      status: 'approved',
+      reviewed_by: user.id,
+      reviewed_at: new Date().toISOString(),
+      manager_feedback: null, // Clear any previous feedback
+    })
+    .eq('id', jobId)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+// Reject a job with feedback (manager only)
+export async function rejectJobSubmission(jobId: string, feedback: string): Promise<Job> {
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+  if (userError || !user) {
+    throw new Error('User must be authenticated')
+  }
+
+  const { data, error } = await supabase
+    .from('jobs')
+    .update({
+      status: 'rejected',
+      manager_feedback: feedback,
+      reviewed_by: user.id,
+      reviewed_at: new Date().toISOString(),
+    })
+    .eq('id', jobId)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+// Legacy functions (kept for backward compatibility)
+export async function approveJob(jobId: string): Promise<Job> {
+  return approveJobSubmission(jobId)
+}
+
 export async function rejectJob(jobId: string): Promise<Job> {
-  return updateJob(jobId, { status: 'rejected' })
+  return rejectJobSubmission(jobId, 'Rejected')
 }

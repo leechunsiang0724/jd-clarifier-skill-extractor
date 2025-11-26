@@ -1,11 +1,28 @@
-import { FileText, LogOut, Folder } from 'lucide-react'
+import { LogOut, Folder, Shield } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { isCurrentUserManager } from '../../lib/roleService'
+import { useState, useEffect } from 'react'
 
 export function TopBar() {
   const navigate = useNavigate()
   const { user } = useAuth()
+  const [isManager, setIsManager] = useState(false)
+
+  useEffect(() => {
+    const checkManagerRole = async () => {
+      if (user) {
+        try {
+          const managerStatus = await isCurrentUserManager()
+          setIsManager(managerStatus)
+        } catch (error) {
+          console.error('Failed to check manager role:', error)
+        }
+      }
+    }
+    checkManagerRole()
+  }, [user])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -28,22 +45,30 @@ export function TopBar() {
     <header className="bg-white/80 backdrop-blur-lg border-b border-indigo-100 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-2 rounded-lg shadow-md">
-              <FileText className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <img src="/kadoshAI.png" alt="kadoshAI" className="h-10 w-auto" />
+            <div className="h-8 w-px bg-slate-200 mx-1"></div>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               JD Refine & Skills Extractor
             </h1>
-          </div>
+          </Link>
           <div className="flex items-center gap-4">
             <Link
               to="/jobs"
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-200"
             >
               <Folder className="h-4 w-4" />
-              My Jobs
+              Jobs
             </Link>
+            {isManager && (
+              <Link
+                to="/manager"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all duration-200"
+              >
+                <Shield className="h-4 w-4" />
+                Manager Dashboard
+              </Link>
+            )}
             <div className="text-right">
               <div className="text-sm font-semibold text-slate-800">
                 {getUserDisplayName()}
