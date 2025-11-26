@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getPendingSubmissions, getAllSubmissions, approveJobSubmission, rejectJobSubmission, type Job } from '../lib/jobService'
-import { FileText, CheckCircle, XCircle, Clock, MessageSquare, User, Calendar } from 'lucide-react'
+import { FileText, CheckCircle, XCircle, Clock, MessageSquare, User, Calendar, X, Maximize2 } from 'lucide-react'
 
 type TabType = 'pending' | 'all'
 
@@ -9,6 +9,7 @@ export function ManagerDashboard() {
     const [jobs, setJobs] = useState<Job[]>([])
     const [loading, setLoading] = useState(true)
     const [selectedJob, setSelectedJob] = useState<Job | null>(null)
+    const [viewingJob, setViewingJob] = useState<Job | null>(null)
     const [feedback, setFeedback] = useState('')
     const [actionLoading, setActionLoading] = useState(false)
 
@@ -126,8 +127,8 @@ export function ManagerDashboard() {
                 <button
                     onClick={() => setActiveTab('pending')}
                     className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'pending'
-                            ? 'bg-indigo-600 text-white shadow-md'
-                            : 'bg-white text-slate-600 hover:bg-slate-50'
+                        ? 'bg-indigo-600 text-white shadow-md'
+                        : 'bg-white text-slate-600 hover:bg-slate-50'
                         }`}
                 >
                     Pending Submissions
@@ -135,8 +136,8 @@ export function ManagerDashboard() {
                 <button
                     onClick={() => setActiveTab('all')}
                     className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'all'
-                            ? 'bg-indigo-600 text-white shadow-md'
-                            : 'bg-white text-slate-600 hover:bg-slate-50'
+                        ? 'bg-indigo-600 text-white shadow-md'
+                        : 'bg-white text-slate-600 hover:bg-slate-50'
                         }`}
                 >
                     All Submissions
@@ -160,6 +161,7 @@ export function ManagerDashboard() {
                     {jobs.map((job) => (
                         <div
                             key={job.id}
+                            id={`job-card-${job.id}`}
                             className="bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-slate-200 p-6 hover:shadow-lg transition-all"
                         >
                             <div className="flex items-start justify-between mb-4">
@@ -184,8 +186,17 @@ export function ManagerDashboard() {
 
                                     {/* Refined Text Preview */}
                                     {job.refined_text && (
-                                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3">
-                                            <p className="text-sm font-medium text-slate-700 mb-2">Refined Description:</p>
+                                        <div
+                                            className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 cursor-pointer hover:border-indigo-300 hover:shadow-sm transition-all group/preview"
+                                            onClick={() => setViewingJob(job)}
+                                        >
+                                            <div className="flex items-center justify-between mb-2">
+                                                <p className="text-sm font-medium text-slate-700">Refined Description:</p>
+                                                <span className="text-xs text-indigo-600 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center gap-1">
+                                                    <Maximize2 className="h-3 w-3" />
+                                                    Click to expand
+                                                </span>
+                                            </div>
                                             <p className="text-slate-600 text-sm line-clamp-3">{job.refined_text}</p>
                                         </div>
                                     )}
@@ -277,6 +288,87 @@ export function ManagerDashboard() {
                             )}
                         </div>
                     ))}
+                </div>
+            )}
+            {/* Job Preview Modal */}
+            {viewingJob && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
+                        {/* Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-slate-100">
+                            <div>
+                                <h2 className="text-2xl font-bold text-slate-800">
+                                    {viewingJob.title || 'Untitled Job Description'}
+                                </h2>
+                                <div className="flex items-center gap-3 mt-2 text-sm text-slate-500">
+                                    {getStatusBadge(viewingJob.status)}
+                                    <span>Updated: {formatDate(viewingJob.updated_at)}</span>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setViewingJob(null)}
+                                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all"
+                            >
+                                <X className="h-6 w-6" />
+                            </button>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 overflow-y-auto p-6">
+                            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-8 min-h-[400px]">
+                                <div className="prose prose-slate max-w-none whitespace-pre-wrap font-sans text-slate-700 leading-relaxed">
+                                    {viewingJob.refined_text || viewingJob.original_text}
+                                </div>
+                            </div>
+
+                            {/* Skills Section in Modal */}
+                            {(viewingJob.skills_must_have.length > 0 || viewingJob.skills_nice_to_have.length > 0) && (
+                                <div className="mt-6">
+                                    <h3 className="text-lg font-semibold text-slate-800 mb-3">Detected Skills</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {viewingJob.skills_must_have.map((skill, idx) => (
+                                            <span key={`must-${idx}`} className="px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded-lg text-sm font-medium border border-indigo-200">
+                                                {skill}
+                                            </span>
+                                        ))}
+                                        {viewingJob.skills_nice_to_have.map((skill, idx) => (
+                                            <span key={`nice-${idx}`} className="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium border border-purple-200">
+                                                {skill} (Nice to have)
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Footer Actions */}
+                        <div className="p-6 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end gap-3">
+                            <button
+                                onClick={() => setViewingJob(null)}
+                                className="px-6 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-lg font-medium hover:bg-slate-50 transition-all"
+                            >
+                                Close
+                            </button>
+                            {viewingJob.status === 'pending_approval' && (
+                                <>
+                                    <button
+                                        onClick={() => {
+                                            setViewingJob(null)
+                                            setSelectedJob(viewingJob)
+                                            // Scroll to the job card
+                                            setTimeout(() => {
+                                                const element = document.getElementById(`job-card-${viewingJob.id}`)
+                                                element?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                                            }, 100)
+                                        }}
+                                        className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-all shadow-sm hover:shadow"
+                                    >
+                                        Review & Act
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
