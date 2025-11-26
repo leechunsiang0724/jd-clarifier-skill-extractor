@@ -1,19 +1,21 @@
 import { FileText, LogOut, Folder } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 
 export function TopBar() {
+  const navigate = useNavigate()
   const { user } = useAuth()
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
+    navigate('/login')
   }
 
   const getUserDisplayName = () => {
     const firstName = user?.user_metadata?.first_name
     const lastName = user?.user_metadata?.last_name
-    
+
     if (firstName && lastName) {
       return `${firstName} ${lastName}`
     } else if (firstName) {

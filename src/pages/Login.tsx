@@ -10,6 +10,7 @@ export function Login() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
+  const [rememberMe, setRememberMe] = useState(true)
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,8 +19,8 @@ export function Login() {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({ 
-          email, 
+        const { error } = await supabase.auth.signUp({
+          email,
           password,
           options: {
             data: {
@@ -31,7 +32,20 @@ export function Login() {
         if (error) throw error
         alert('Check your email for the confirmation link!')
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
+        // Set storage preference BEFORE signing in
+        if (rememberMe) {
+          // Use localStorage (persistent)
+          sessionStorage.removeItem('use_session_storage')
+        } else {
+          // Use sessionStorage (cleared on browser close)
+          sessionStorage.setItem('use_session_storage', 'true')
+        }
+
+        // Sign in - the custom storage adapter will use the appropriate storage
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        })
         if (error) throw error
       }
     } catch (err: any) {
@@ -128,6 +142,21 @@ export function Login() {
               />
             </div>
           </div>
+
+          {!isSignUp && (
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded cursor-pointer"
+              />
+              <label htmlFor="rememberMe" className="ml-2 block text-sm text-slate-700 cursor-pointer">
+                Remember me
+              </label>
+            </div>
+          )}
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
