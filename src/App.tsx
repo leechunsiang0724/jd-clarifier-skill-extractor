@@ -4,6 +4,7 @@ import { JobEditor } from './pages/JobEditor'
 import { MyJobs } from './pages/MyJobs'
 import { Login } from './pages/Login'
 import { ManagerDashboard } from './pages/ManagerDashboard'
+import { LandingPage } from './pages/LandingPage'
 import { useAuth } from './hooks/useAuth'
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
         <Route
           path="/"
-          element={user ? <AppLayout><JobEditor /></AppLayout> : <Navigate to="/login" />}
+          element={user ? <AppLayout><JobEditor /></AppLayout> : <LandingPage />}
         />
         <Route
           path="/jobs"
