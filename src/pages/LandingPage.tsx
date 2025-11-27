@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Sparkles, FileText, Users } from 'lucide-react'
+import { WavyBackground } from '@/components/ui/wavy-background'
 
 export const LandingPage = () => {
     return (
@@ -28,39 +29,44 @@ export const LandingPage = () => {
 
             <main className="flex-1">
                 {/* Hero Section */}
-                <section className="relative py-12 md:py-20 overflow-hidden">
-                    <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-                    <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-[100px]"></div>
-
-                    <div className="container mx-auto px-4 text-center">
-                        <div className="animate-fade-in-up space-y-6 max-w-3xl mx-auto">
-                            <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary mb-4">
-                                <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
-                                Now with AI-Powered Extraction
-                            </div>
-                            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground">
-                                Transform Job Descriptions into <span className="text-primary">Clear Skills</span>
-                            </h1>
-                            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                                Stop guessing what candidates need. Our AI extracts precise skills, refines requirements, and streamlines your entire hiring workflow.
-                            </p>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                                <Link
-                                    to="/login"
-                                    className="h-11 px-8 rounded-md bg-primary text-primary-foreground font-medium shadow-lg hover:bg-primary/90 transition-all hover:scale-105 flex items-center gap-2"
-                                >
-                                    Start Clarifying <ArrowRight className="h-4 w-4" />
-                                </Link>
-                                <a
-                                    href="#features"
-                                    className="h-11 px-8 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground font-medium transition-colors flex items-center justify-center"
-                                >
-                                    Learn More
-                                </a>
-                            </div>
+                {/* Hero Section */}
+                <WavyBackground
+                    className="container mx-auto px-4 text-center"
+                    containerClassName="relative py-12 md:py-20 overflow-hidden h-auto min-h-[80vh]"
+                    colors={["#38bdf8", "#818cf8", "#c084fc", "#e879f9", "#22d3ee"]}
+                    waveWidth={50}
+                    backgroundFill="white"
+                    blur={10}
+                    speed="fast"
+                    waveOpacity={0.5}
+                >
+                    <div className="animate-fade-in-up space-y-6 max-w-3xl mx-auto">
+                        <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary mb-4">
+                            <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
+                            Now with AI-Powered Extraction
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground">
+                            Transform Job Descriptions into <span className="text-primary">Clear Skills</span>
+                        </h1>
+                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                            Stop guessing what candidates need. Our AI extracts precise skills, refines requirements, and streamlines your entire hiring workflow.
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                            <Link
+                                to="/login"
+                                className="h-11 px-8 rounded-md bg-primary text-primary-foreground font-medium shadow-lg hover:bg-primary/90 transition-all hover:scale-105 flex items-center gap-2"
+                            >
+                                Start Clarifying <ArrowRight className="h-4 w-4" />
+                            </Link>
+                            <a
+                                href="#features"
+                                className="h-11 px-8 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground font-medium transition-colors flex items-center justify-center"
+                            >
+                                Learn More
+                            </a>
                         </div>
                     </div>
-                </section>
+                </WavyBackground>
 
                 {/* Features Section */}
                 <section id="features" className="py-20 bg-muted/30">
