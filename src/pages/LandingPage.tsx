@@ -46,7 +46,7 @@ export const LandingPage = () => {
                             Now with AI-Powered Extraction
                         </div>
                         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground">
-                            Transform Job Descriptions into <span className="text-primary">Clear Skills</span>
+                            Transform Rough Drafts into <span className="text-primary">Compliant, Skill-Extracted Job Descriptions</span>
                         </h1>
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                             Stop guessing what candidates need. Our AI extracts precise skills, refines requirements, and streamlines your entire hiring workflow.
