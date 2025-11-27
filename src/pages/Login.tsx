@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Mail, Lock, Loader2, User } from 'lucide-react'
+import { Mail, Lock, Loader2, User, Briefcase, Users } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
 export function Login() {
@@ -11,6 +11,7 @@ export function Login() {
   const [error, setError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
   const [rememberMe, setRememberMe] = useState(true)
+  const [role, setRole] = useState<'user' | 'manager'>('user')
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,6 +27,7 @@ export function Login() {
             data: {
               first_name: firstName,
               last_name: lastName,
+              role: role,
             }
           }
         })
@@ -104,6 +106,36 @@ export function Login() {
                     placeholder="Doe"
                     required
                   />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  I am a...
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setRole('user')}
+                    className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${role === 'user'
+                        ? 'border-primary bg-primary/5 text-primary'
+                        : 'border-slate-200 hover:border-slate-300 text-slate-600'
+                      }`}
+                  >
+                    <Users className="h-6 w-6" />
+                    <span className="font-medium">User</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('manager')}
+                    className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${role === 'manager'
+                        ? 'border-primary bg-primary/5 text-primary'
+                        : 'border-slate-200 hover:border-slate-300 text-slate-600'
+                      }`}
+                  >
+                    <Briefcase className="h-6 w-6" />
+                    <span className="font-medium">Manager</span>
+                  </button>
                 </div>
               </div>
             </>
