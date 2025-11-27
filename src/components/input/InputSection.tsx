@@ -1,5 +1,7 @@
-import { Upload, Sparkles } from 'lucide-react'
+import { useState } from 'react'
+import { Upload, Sparkles, Loader2 } from 'lucide-react'
 import type { JobData } from '../../pages/JobEditor'
+import { parseFile } from '../../lib/fileParser'
 
 interface InputSectionProps {
   jobData: JobData
@@ -9,13 +11,24 @@ interface InputSectionProps {
 }
 
 export function InputSection({ jobData, setJobData, onAnalyze, isAnalyzing }: InputSectionProps) {
+  const [isParsing, setIsParsing] = useState(false)
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // TODO: Implement file parsing for PDF/DOCX
-    const text = await file.text()
-    setJobData((prev) => ({ ...prev, originalText: text }))
+    setIsParsing(true)
+    try {
+      const text = await parseFile(file)
+      setJobData((prev) => ({ ...prev, originalText: text }))
+    } catch (error) {
+      console.error('File parsing error:', error)
+      alert('Failed to parse file. Please ensure it is a valid PDF or DOCX file.')
+    } finally {
+      setIsParsing(false)
+      // Reset the input value so the same file can be selected again if needed
+      e.target.value = ''
+    }
   }
 
   return (
@@ -32,10 +45,14 @@ export function InputSection({ jobData, setJobData, onAnalyze, isAnalyzing }: In
 
       {/* File Upload */}
       <div className="mt-4">
-        <label className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer transition-all">
-          <Upload className="h-5 w-5 text-slate-600" />
-          <span className="text-sm font-medium text-slate-600">Upload PDF/DOCX</span>
-          <input type="file" accept=".pdf,.docx" onChange={handleFileUpload} className="hidden" />
+        <label className={`flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer transition-all ${isParsing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+          {isParsing ? (
+            <Loader2 className="h-5 w-5 text-slate-600 animate-spin" />
+          ) : (
+            <Upload className="h-5 w-5 text-slate-600" />
+          )}
+          <span className="text-sm font-medium text-slate-600">{isParsing ? 'Parsing file...' : 'Upload PDF/DOCX'}</span>
+          <input type="file" accept=".pdf,.docx" onChange={handleFileUpload} className="hidden" disabled={isParsing} />
         </label>
       </div>
 
