@@ -58,7 +58,7 @@ export function TopBar() {
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-200"
             >
               <Folder className="h-4 w-4" />
-              Jobs
+              Dashboard
             </Link>
             {isManager && (
               <Link

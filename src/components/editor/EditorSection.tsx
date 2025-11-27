@@ -20,7 +20,7 @@ export function EditorSection({ jobData, setJobData }: EditorSectionProps) {
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-indigo-100 p-6 h-full">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-slate-800">Polished JD</h2>
+        <h2 className="text-xl font-bold text-slate-800">Refined JD</h2>
         <div className="flex items-center gap-2">
           <label className="flex items-center gap-2 text-sm text-slate-600">
             <input

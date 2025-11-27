@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getMyJobs, deleteJob, submitJobForApproval, type Job } from '../lib/jobService'
-import { FileText, Trash2, Calendar, Tag, Send } from 'lucide-react'
+import { FileText, Trash2, Calendar, Tag, Send, Edit, ArrowLeft } from 'lucide-react'
 
 export function MyJobs() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -85,16 +85,17 @@ export function MyJobs() {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <div>
+        <button
+          onClick={() => navigate('/')}
+          className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+        >
+          <ArrowLeft className="h-5 w-5" />
+          Back
+        </button>
+        <div className="text-right">
           <h1 className="text-3xl font-bold text-slate-800">My Job Descriptions</h1>
           <p className="text-slate-600 mt-2">Manage and share your refined job descriptions</p>
         </div>
-        <button
-          onClick={() => navigate('/')}
-          className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
-        >
-          + New Job Description
-        </button>
       </div>
 
       {jobs.length === 0 ? (
@@ -149,22 +150,22 @@ export function MyJobs() {
                 </div>
 
                 <div className="flex items-center gap-2 ml-4">
-                  <button
-                    onClick={() => navigate(`/jobs/${job.id}`)}
-                    className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg font-medium hover:bg-indigo-100 transition-all"
-                  >
-                    Open
-                  </button>
-
                   {(job.status === 'draft' || job.status === 'rejected') && job.refined_text && (
                     <button
                       onClick={() => handleSubmit(job)}
-                      className="p-2 text-slate-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all"
+                      className="p-2 bg-green-500 text-white hover:bg-green-600 rounded-lg transition-all shadow-sm hover:shadow-md"
                       title="Submit for Approval"
                     >
                       <Send className="h-5 w-5" />
                     </button>
                   )}
+                  <button
+                    onClick={() => navigate(`/jobs/${job.id}`)}
+                    className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                    title="Edit"
+                  >
+                    <Edit className="h-5 w-5" />
+                  </button>
                   <button
                     onClick={() => handleDelete(job.id)}
                     className="p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"

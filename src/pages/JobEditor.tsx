@@ -4,8 +4,9 @@ import { InputSection } from '../components/input/InputSection'
 import { EditorSection } from '../components/editor/EditorSection'
 import { SkillsSidebar } from '../components/skills/SkillsSidebar'
 import { refineJobDescription } from '../lib/aiService'
-import { createJob, updateJob, getJobById, submitJobForApproval } from '../lib/jobService'
-import { AlertCircle, Save, Share2, Send, CheckCircle, XCircle, Clock, MessageSquare } from 'lucide-react'
+import { createJob, updateJob, getJobById } from '../lib/jobService'
+import { generateJobDescriptionPDF } from '../lib/pdfService'
+import { AlertCircle, Save, FileDown } from 'lucide-react'
 
 export interface JobData {
   originalText: string
@@ -129,6 +130,14 @@ export function JobEditor() {
     }
   }
 
+  const handleDownloadPDF = () => {
+    generateJobDescriptionPDF(
+      title || 'Untitled Job Description',
+      jobData.refinedText,
+      jobData.skills
+    )
+  }
+
   return (
     <>
       {/* Success Message */}
@@ -164,6 +173,14 @@ export function JobEditor() {
             className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
           <button
+            onClick={handleDownloadPDF}
+            disabled={!jobData.refinedText}
+            className="p-2 text-slate-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Download PDF"
+          >
+            <FileDown className="h-5 w-5" />
+          </button>
+          <button
             onClick={handleSave}
             disabled={isSaving || !jobData.originalText}
             className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-all"
@@ -180,15 +197,6 @@ export function JobEditor() {
               </>
             )}
           </button>
-          {currentJobId && (
-            <button
-              onClick={() => navigate(`/jobs/${currentJobId}/share`)}
-              className="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 flex items-center gap-2 transition-all"
-            >
-              <Share2 className="h-4 w-4" />
-              Share
-            </button>
-          )}
         </div>
       </div>
 

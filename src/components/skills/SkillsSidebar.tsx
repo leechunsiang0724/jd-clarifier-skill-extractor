@@ -1,4 +1,4 @@
-import { X, Plus, Download } from 'lucide-react'
+import { X, Plus } from 'lucide-react'
 import { useState } from 'react'
 import type { JobData } from '../../pages/JobEditor'
 
@@ -34,31 +34,11 @@ export function SkillsSidebar({ jobData, setJobData }: SkillsSidebarProps) {
     }))
   }
 
-  const exportSkills = () => {
-    const data = {
-      mustHave: jobData.skills.mustHave,
-      niceToHave: jobData.skills.niceToHave,
-    }
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'skills.json'
-    a.click()
-  }
+
 
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-indigo-100 p-6 h-full">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-slate-800">Extracted Skills</h2>
-        <button
-          onClick={exportSkills}
-          className="p-2 hover:bg-indigo-50 rounded-lg text-indigo-600 transition-all"
-          title="Export to ATS"
-        >
-          <Download className="h-5 w-5" />
-        </button>
-      </div>
+      <h2 className="text-xl font-bold text-slate-800 mb-4">Extracted Skills</h2>
 
       {/* Must Haves */}
       <div className="mb-6">

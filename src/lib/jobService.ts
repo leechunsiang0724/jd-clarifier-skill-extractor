@@ -66,9 +66,11 @@ export async function createJob(data: CreateJobData): Promise<Job> {
       status: 'draft',
     })
     .select()
-    .single()
+    .select()
+    .maybeSingle()
 
   if (error) throw error
+  if (!job) throw new Error('Failed to create job')
   return job
 }
 
@@ -126,9 +128,11 @@ export async function updateJob(id: string, data: UpdateJobData): Promise<Job> {
     .update(data)
     .eq('id', id)
     .select()
-    .single()
+    .select()
+    .maybeSingle()
 
   if (error) throw error
+  if (!job) throw new Error('Job not found or you do not have permission to update it')
   return job
 }
 

@@ -15,12 +15,11 @@ export async function getUserRole(userId: string): Promise<'user' | 'manager'> {
         .from('user_roles')
         .select('role')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()
 
     if (error) {
-        // If no role exists, default to 'user'
-        if (error.code === 'PGRST116') return 'user'
-        throw error
+        console.error('Error fetching user role:', error)
+        return 'user' // Default to user role on error
     }
 
     return data?.role || 'user'

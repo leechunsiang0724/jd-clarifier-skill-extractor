@@ -31,14 +31,18 @@ Requirements:
 - Tone: ${options.tone}
 - Length: ${options.length}
 - Remove gender-coded or biased language
-- Standardize formatting with clear sections (About Us, Role, Requirements, Benefits if applicable)
+- Use formal, professional formatting WITHOUT markdown symbols (no asterisks, no bold markers)
+- Format section headers in UPPERCASE or Title Case with proper spacing (e.g., "ABOUT US" or "About Us")
+- Use clear sections (About Us, Position/Role, Responsibilities, Requirements, Benefits if applicable)
+- Separate sections with blank lines for readability
 - Correct grammar and spelling
 - Make it compelling and clear
+- Use plain text formatting only - no **, no _, no markdown syntax
 
 Original Notes:
 ${originalText}
 
-Provide ONLY the refined job description text, no explanations.`
+Provide ONLY the refined job description text in professional plain text format, no markdown, no explanations.`
 
     // Call OpenAI API for refinement
     const refinementResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -116,7 +120,7 @@ Return ONLY a JSON object in this exact format with no additional text:
 
     const skillsData = await skillsResponse.json()
     const skillsContentText = skillsData.choices[0]?.message?.content || '{}'
-    
+
     let skills: { mustHave: string[]; niceToHave: string[] }
     try {
       skills = JSON.parse(skillsContentText)
