@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getMyJobs, deleteJob, submitJobForApproval, type Job } from '../lib/jobService'
-import { FileText, Trash2, Share2, Calendar, Tag, Send } from 'lucide-react'
+import { FileText, Trash2, Calendar, Tag, Send } from 'lucide-react'
 
 export function MyJobs() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -155,13 +155,7 @@ export function MyJobs() {
                   >
                     Open
                   </button>
-                  <button
-                    onClick={() => navigate(`/jobs/${job.id}/share`)}
-                    className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
-                    title="Share"
-                  >
-                    <Share2 className="h-5 w-5" />
-                  </button>
+
                   {(job.status === 'draft' || job.status === 'rejected') && job.refined_text && (
                     <button
                       onClick={() => handleSubmit(job)}
