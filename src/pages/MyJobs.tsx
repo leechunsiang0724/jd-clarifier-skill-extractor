@@ -77,7 +77,7 @@ export function MyJobs() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     )
   }
@@ -87,7 +87,7 @@ export function MyJobs() {
       <div className="flex items-center justify-between mb-8">
         <button
           onClick={() => navigate('/')}
-          className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+          className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
         >
           <ArrowLeft className="h-5 w-5" />
           Back
@@ -99,13 +99,13 @@ export function MyJobs() {
       </div>
 
       {jobs.length === 0 ? (
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-indigo-100 p-12 text-center">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200 p-12 text-center">
           <FileText className="h-16 w-16 text-slate-300 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-slate-800 mb-2">No job descriptions yet</h3>
           <p className="text-slate-600 mb-6">Create your first job description to get started</p>
           <button
             onClick={() => navigate('/')}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-all"
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all"
           >
             Create Job Description
           </button>
@@ -161,7 +161,7 @@ export function MyJobs() {
                   )}
                   <button
                     onClick={() => navigate(`/jobs/${job.id}`)}
-                    className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                    className="p-2 text-slate-600 hover:text-primary hover:bg-slate-100 rounded-lg transition-all"
                     title="Edit"
                   >
                     <Edit className="h-5 w-5" />

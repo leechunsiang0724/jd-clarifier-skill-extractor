@@ -42,20 +42,20 @@ export function TopBar() {
   }
 
   return (
-    <header className="bg-white/80 backdrop-blur-lg border-b border-indigo-100 sticky top-0 z-50 shadow-sm">
+    <header className="bg-white/80 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img src="/kadoshAI.png" alt="kadoshAI" className="h-10 w-auto" />
             <div className="h-8 w-px bg-slate-200 mx-1"></div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold text-primary">
               JD Refine & Skills Extractor
             </h1>
           </Link>
           <div className="flex items-center gap-4">
             <Link
               to="/jobs"
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-200"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-primary hover:bg-slate-100 rounded-lg transition-all duration-200"
             >
               <Folder className="h-4 w-4" />
               Dashboard
@@ -63,7 +63,7 @@ export function TopBar() {
             {isManager && (
               <Link
                 to="/manager"
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all duration-200"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-primary hover:bg-slate-100 rounded-lg transition-all duration-200"
               >
                 <Shield className="h-4 w-4" />
                 Manager Dashboard
@@ -81,7 +81,7 @@ export function TopBar() {
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-200"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-primary hover:bg-slate-100 rounded-lg transition-all duration-200"
             >
               <LogOut className="h-4 w-4" />
               Logout

@@ -37,7 +37,7 @@ export function SkillsSidebar({ jobData, setJobData }: SkillsSidebarProps) {
 
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-indigo-100 p-6 h-full">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200 p-6 h-full">
       <h2 className="text-xl font-bold text-slate-800 mb-4">Extracted Skills</h2>
 
       {/* Must Haves */}
@@ -47,7 +47,7 @@ export function SkillsSidebar({ jobData, setJobData }: SkillsSidebarProps) {
           {jobData.skills.mustHave.map((skill) => (
             <div
               key={skill}
-              className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all group"
+              className="flex items-center gap-1 px-3 py-1.5 bg-primary text-primary-foreground rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all group"
             >
               <span>{skill}</span>
               <button
@@ -68,7 +68,7 @@ export function SkillsSidebar({ jobData, setJobData }: SkillsSidebarProps) {
           {jobData.skills.niceToHave.map((skill) => (
             <div
               key={skill}
-              className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all group"
+              className="flex items-center gap-1 px-3 py-1.5 bg-slate-600 text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all group"
             >
               <span>{skill}</span>
               <button
@@ -92,20 +92,20 @@ export function SkillsSidebar({ jobData, setJobData }: SkillsSidebarProps) {
             onChange={(e) => setNewSkill(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addSkill()}
             placeholder="e.g., Python, Leadership"
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
           />
           <div className="flex gap-2">
             <select
               value={skillType}
               onChange={(e) => setSkillType(e.target.value as 'mustHave' | 'niceToHave')}
-              className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+              className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
             >
               <option value="mustHave">Must Have</option>
               <option value="niceToHave">Nice to Have</option>
             </select>
             <button
               onClick={addSkill}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all flex items-center gap-1"
+              className="px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg font-medium transition-all flex items-center gap-1"
             >
               <Plus className="h-4 w-4" />
               Add

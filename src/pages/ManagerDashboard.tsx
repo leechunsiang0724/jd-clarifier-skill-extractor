@@ -110,7 +110,7 @@ export function ManagerDashboard() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
         )
     }
@@ -127,7 +127,7 @@ export function ManagerDashboard() {
                 <button
                     onClick={() => setActiveTab('pending')}
                     className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'pending'
-                        ? 'bg-indigo-600 text-white shadow-md'
+                        ? 'bg-primary text-primary-foreground shadow-md'
                         : 'bg-white text-slate-600 hover:bg-slate-50'
                         }`}
                 >
@@ -136,7 +136,7 @@ export function ManagerDashboard() {
                 <button
                     onClick={() => setActiveTab('all')}
                     className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === 'all'
-                        ? 'bg-indigo-600 text-white shadow-md'
+                        ? 'bg-primary text-primary-foreground shadow-md'
                         : 'bg-white text-slate-600 hover:bg-slate-50'
                         }`}
                 >
@@ -145,7 +145,7 @@ export function ManagerDashboard() {
             </div>
 
             {jobs.length === 0 ? (
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-indigo-100 p-12 text-center">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200 p-12 text-center">
                     <FileText className="h-16 w-16 text-slate-300 mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-slate-800 mb-2">
                         {activeTab === 'pending' ? 'No pending submissions' : 'No submissions yet'}
@@ -187,12 +187,12 @@ export function ManagerDashboard() {
                                     {/* Refined Text Preview */}
                                     {job.refined_text && (
                                         <div
-                                            className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 cursor-pointer hover:border-indigo-300 hover:shadow-sm transition-all group/preview"
+                                            className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 cursor-pointer hover:border-primary/50 hover:shadow-sm transition-all group/preview"
                                             onClick={() => setViewingJob(job)}
                                         >
                                             <div className="flex items-center justify-between mb-2">
                                                 <p className="text-sm font-medium text-slate-700">Refined Description:</p>
-                                                <span className="text-xs text-indigo-600 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center gap-1">
+                                                <span className="text-xs text-primary opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center gap-1">
                                                     <Maximize2 className="h-3 w-3" />
                                                     Click to expand
                                                 </span>
@@ -205,12 +205,12 @@ export function ManagerDashboard() {
                                     {(job.skills_must_have.length > 0 || job.skills_nice_to_have.length > 0) && (
                                         <div className="flex flex-wrap gap-2 mb-3">
                                             {job.skills_must_have.map((skill, idx) => (
-                                                <span key={idx} className="px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs font-medium">
+                                                <span key={idx} className="px-2 py-1 bg-primary/10 text-primary rounded text-xs font-medium">
                                                     {skill}
                                                 </span>
                                             ))}
                                             {job.skills_nice_to_have.map((skill, idx) => (
-                                                <span key={idx} className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">
+                                                <span key={idx} className="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-medium">
                                                     {skill} (Nice)
                                                 </span>
                                             ))}
@@ -262,7 +262,7 @@ export function ManagerDashboard() {
                                         value={feedback}
                                         onChange={(e) => setFeedback(e.target.value)}
                                         placeholder="Provide detailed feedback on what needs to be improved..."
-                                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none"
                                         rows={4}
                                     />
                                     <div className="flex gap-2 mt-3">
@@ -327,12 +327,12 @@ export function ManagerDashboard() {
                                     <h3 className="text-lg font-semibold text-slate-800 mb-3">Detected Skills</h3>
                                     <div className="flex flex-wrap gap-2">
                                         {viewingJob.skills_must_have.map((skill, idx) => (
-                                            <span key={`must-${idx}`} className="px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded-lg text-sm font-medium border border-indigo-200">
+                                            <span key={`must-${idx}`} className="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-medium border border-primary/20">
                                                 {skill}
                                             </span>
                                         ))}
                                         {viewingJob.skills_nice_to_have.map((skill, idx) => (
-                                            <span key={`nice-${idx}`} className="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium border border-purple-200">
+                                            <span key={`nice-${idx}`} className="px-3 py-1.5 bg-slate-100 text-slate-700 rounded-lg text-sm font-medium border border-slate-200">
                                                 {skill} (Nice to have)
                                             </span>
                                         ))}
@@ -361,7 +361,7 @@ export function ManagerDashboard() {
                                                 element?.scrollIntoView({ behavior: 'smooth', block: 'center' })
                                             }, 100)
                                         }}
-                                        className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-all shadow-sm hover:shadow"
+                                        className="px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all shadow-sm hover:shadow"
                                     >
                                         Review & Act
                                     </button>

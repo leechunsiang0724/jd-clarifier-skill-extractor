@@ -32,7 +32,7 @@ export function InputSection({ jobData, setJobData, onAnalyze, isAnalyzing }: In
   }
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-indigo-100 p-6 h-full">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200 p-6 h-full">
       <h2 className="text-xl font-bold text-slate-800 mb-4">Original Notes</h2>
 
       {/* Text Area */}
@@ -40,7 +40,7 @@ export function InputSection({ jobData, setJobData, onAnalyze, isAnalyzing }: In
         value={jobData.originalText}
         onChange={(e) => setJobData((prev) => ({ ...prev, originalText: e.target.value }))}
         placeholder="Paste your rough job description notes here..."
-        className="w-full h-64 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition-all"
+        className="w-full h-64 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none transition-all"
       />
 
       {/* File Upload */}
@@ -63,7 +63,7 @@ export function InputSection({ jobData, setJobData, onAnalyze, isAnalyzing }: In
           <select
             value={jobData.tone}
             onChange={(e) => setJobData((prev) => ({ ...prev, tone: e.target.value as JobData['tone'] }))}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
           >
             <option value="corporate">Corporate</option>
             <option value="startup">Startup/Casual</option>
@@ -76,7 +76,7 @@ export function InputSection({ jobData, setJobData, onAnalyze, isAnalyzing }: In
           <select
             value={jobData.length}
             onChange={(e) => setJobData((prev) => ({ ...prev, length: e.target.value as JobData['length'] }))}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
           >
             <option value="concise">Concise</option>
             <option value="detailed">Detailed</option>
@@ -88,7 +88,7 @@ export function InputSection({ jobData, setJobData, onAnalyze, isAnalyzing }: In
       <button
         onClick={onAnalyze}
         disabled={!jobData.originalText || isAnalyzing}
-        className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full mt-6 bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {isAnalyzing ? (
           <>

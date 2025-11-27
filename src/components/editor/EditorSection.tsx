@@ -18,7 +18,7 @@ export function EditorSection({ jobData, setJobData }: EditorSectionProps) {
   }
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-indigo-100 p-6 h-full">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200 p-6 h-full">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-slate-800">Refined JD</h2>
         <div className="flex items-center gap-2">
@@ -27,14 +27,14 @@ export function EditorSection({ jobData, setJobData }: EditorSectionProps) {
               type="checkbox"
               checked={showComparison}
               onChange={(e) => setShowComparison(e.target.checked)}
-              className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              className="rounded border-slate-300 text-primary focus:ring-primary"
             />
             Show Comparison
           </label>
           <button
             onClick={handleCopy}
             disabled={!jobData.refinedText}
-            className="flex items-center gap-2 px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied ? 'Copied!' : 'Copy'}
@@ -55,7 +55,7 @@ export function EditorSection({ jobData, setJobData }: EditorSectionProps) {
           {/* After */}
           <div>
             <h3 className="text-sm font-medium text-slate-600 mb-2">After</h3>
-            <div className="h-96 p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg overflow-y-auto text-sm text-slate-700 whitespace-pre-wrap">
+            <div className="h-96 p-4 bg-slate-50 border border-slate-200 rounded-lg overflow-y-auto text-sm text-slate-700 whitespace-pre-wrap">
               {jobData.refinedText || 'Refined text will appear here...'}
             </div>
           </div>
@@ -65,7 +65,7 @@ export function EditorSection({ jobData, setJobData }: EditorSectionProps) {
           value={jobData.refinedText}
           onChange={(e) => setJobData((prev) => ({ ...prev, refinedText: e.target.value }))}
           placeholder="Your refined job description will appear here after analysis..."
-          className="w-full h-96 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition-all"
+          className="w-full h-96 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none transition-all"
         />
       )}
     </div>

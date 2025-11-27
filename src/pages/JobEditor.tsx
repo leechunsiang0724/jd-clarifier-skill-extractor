@@ -163,19 +163,19 @@ export function JobEditor() {
       )}
 
       {/* Title and Actions */}
-      <div className="mb-6 bg-white/90 backdrop-blur-sm rounded-lg shadow-md border border-indigo-100 p-4">
+      <div className="mb-6 bg-white/90 backdrop-blur-sm rounded-lg shadow-md border border-slate-200 p-4">
         <div className="flex items-center gap-4">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Job Title (e.g., Senior Full Stack Developer)"
-            className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
           />
           <button
             onClick={handleDownloadPDF}
             disabled={!jobData.refinedText}
-            className="p-2 text-slate-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 text-slate-600 hover:text-primary hover:bg-slate-100 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             title="Download PDF"
           >
             <FileDown className="h-5 w-5" />
@@ -183,7 +183,7 @@ export function JobEditor() {
           <button
             onClick={handleSave}
             disabled={isSaving || !jobData.originalText}
-            className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-all"
+            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-all"
           >
             {isSaving ? (
               <>
